@@ -6,7 +6,9 @@
 int main(int argc, char** argv) {
     printf("Hello World !\n");
 
-    parse_file("assets/test.nanoml");
+    char* file_name = "assets/test.nanoml";
+
+    parse_file(file_name);
     
     return 0;
 }
