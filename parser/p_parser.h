@@ -29,9 +29,14 @@ int parse_file(char* file_name);
 
 /**
  * @param caractere : la lettre à lire
- * Ecrit la lettre dans un fichier
+ * Enregistre la lettre lu dans un buffer
 */
 void lire_charactere(char caractere);
+
+/**
+ * lit un mot
+*/
+char* lire_mot();
 
 /**
  * Lit toutes les lettres d'un mot
