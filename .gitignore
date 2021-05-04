@@ -3,6 +3,7 @@
 *.o
 *.exe
 *.stackdump
+executable
 
 # Ignore .vscode repository
 

@@ -17,6 +17,8 @@ int parse_file(char* file_name) {
     
     }
 
+    printf("\n");
+
     // Close the file
     fclose(file_to_parse);
 

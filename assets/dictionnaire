@@ -1,0 +1,23 @@
+<texte_enrichi> ::= <document> <annexes>
+<document> ::= ‘debut_doc’ <contenu> ‘fin_doc’
+<annexes> ::= {‘debut_annexe’ <contenu> ‘fin_annexe’ }
+<contenu> ::= { <section> | <titre> | <mot_enrichi> | <liste> }
+<section> ::= ‘debut_section’ <contenu> ‘fin_section’
+<titre> ::= ‘debut_titre’ <texte> ‘fin_titre’
+<liste> ::= ‘debut_liste’ { <item> } ‘fin_liste’
+<item> ::= ‘debut_item’ ( <liste_texte> | <texte_liste> ) ‘fin_item’
+<liste_texte> ::= <liste> <texte_liste> | epsilon
+<texte_liste> ::= <texte> <liste_texte> | epsilon
+<texte> ::= { <mot_enrichi> }
+<mot_enrichi> ::= <mot_simple> | <mot_important> | ‘retour_a_la_ligne’
+<mot_important> ::= ‘debut_important’ { <mot_simple> } ’fin_important’
+
+
+
+• ::= signifie « se réécrit comme » ;
+• {truc} signifie « répétition de truc entre 0 et un nombre arbitraire » ;
+• | signifie « ou » ;
+• Les parenthèses () servent à définir des règles de priorité ;
+• epsilon est un mot vide. C’est un mot qui ne contient rien ;
+• <elt> signifie que l’élément est définie comme une combinaison d’autre éléments ou termes ;
+• ‘terme’ signifie que le terme apparait dans le texte tel quel.
