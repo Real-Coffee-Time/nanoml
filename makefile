@@ -4,7 +4,7 @@ LDFLAGS = 															# Compiler links edition
 
 MODULES = . parser											# All the modules to compile
 
-EXEC = nanoml 												# Executables name
+EXEC = executable 												# Executables name
 SRC = $(foreach sdir,$(MODULES), $(wildcard $(sdir)/*.c))			# Fetch all the *.c files
 OBJ = $(SRC:.c=.o)													# Create all objects files
 
