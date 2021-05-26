@@ -2,9 +2,9 @@ CC = gcc 															# Compiler
 CFLAGS = -Wall -O 													# Compiler options
 LDFLAGS = 															# Compiler links edition
 
-MODULES = . parser											# All the modules to compile
+MODULES = . parser_test												# All the modules to compile
 
-EXEC = executable 												# Executables name
+EXEC = executable 												    # Executables name
 SRC = $(foreach sdir,$(MODULES), $(wildcard $(sdir)/*.c))			# Fetch all the *.c files
 OBJ = $(SRC:.c=.o)													# Create all objects files
 
@@ -23,3 +23,8 @@ clean:
 	rm -f $(OBJ)
 	rm -f $(EXEC)
 	rm -f *.stackdump
+
+run:
+	make clean
+	make all
+	./$(EXEC)

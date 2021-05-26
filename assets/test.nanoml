@@ -1,6 +1,19 @@
 <document>
     <section>
-        Bonjour le Monde.
+        <h1>Je suis un titre</h1>
+        Bonjour le Monde. Je suis un <b>connard</b> qui fait son travail a la derniare minute .
+        <section>
+            Une poule sur un mur, avec Vladimir Poutine.
+            <li>
+                <item>Un item</item>
+                <item>Un deuxieme item</item>
+                <li>
+                    Une sous liste avec un header
+                    <item>Un item de sous liste</item>
+                    <item>Un deuxieme item de sous liste</item>
+                </li>
+            </li>
+        </section>
     </section>
 </document>
 <annexe>

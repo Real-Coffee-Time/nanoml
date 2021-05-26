@@ -3,6 +3,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
 #define CONTENT_TYPE a_text | a_list
 
@@ -59,16 +61,37 @@ typedef t_nanoml* a_nanoml;
 a_word create_word(string word, int is_important);
 
 /***/
-a_text create_text();
+a_text create_empty_text();
+
+/***/
+a_word create_space();
+
+/***/
+int add_space_to_text(a_text text);
+
+/***/
+int add_space_to_text(a_text text);
 
 /***/
 int add_word_to_text(a_text text, a_word word);
 
 /***/
+int add_space_to_text(a_text text);
+
+/***/
+int is_null_word(a_word word);
+
+/***/
 int print_word(a_word word);
 
 /***/
+int print_word_in_maj(a_word word);
+
+/***/
 int print_text(a_text text);
+
+/***/
+int is_null_text(a_text text);
 
 /* ========================= LISTS ========================= */
 
@@ -96,7 +119,7 @@ int add_list_to_content(a_list list, a_content content);
 int add_subcontent_to_content(a_content subcontent, a_content content);
 
 /***/
-int print_content(a_content content)
+int print_content(a_content content);
 
 /***/
 a_section init_empty_section();
