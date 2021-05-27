@@ -4,13 +4,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/***/
-char* print_line(char* text);
+#include "../parser/p_parser.h"
 
 /***/
-char* print_title(char* text);
+void print_line(char* text);
 
 /***/
-char* print_section(char* text, int width);
+void print_title(char* text);
+
+/***/
+void print_section(char* text, int width);
 
 #endif
