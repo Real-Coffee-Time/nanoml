@@ -2,7 +2,7 @@ CC = gcc 															# Compiler
 CFLAGS = -Wall -O 													# Compiler options
 LDFLAGS = 															# Compiler links edition
 
-MODULES = . parser_test												# All the modules to compile
+MODULES = . parser_test cli_render									# All the modules to compile
 
 EXEC = executable 												    # Executables name
 SRC = $(foreach sdir,$(MODULES), $(wildcard $(sdir)/*.c))			# Fetch all the *.c files
