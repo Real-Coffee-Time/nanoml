@@ -39,6 +39,18 @@ int print_word_in_maj(a_word word) {
         return 0;
     }
 
+    char temp[250] = {0};
+
+    for (int i = 0; word->word[i] != '\0'; i++){
+        if (isalnum(word->word[i])) {
+            temp[i] = toupper(word->word[i]);
+        } else {
+            temp[i] = word->word[i];
+        }
+    }
+
+    printf("%s", temp);
+
     return 1;
 }
 
@@ -89,17 +101,6 @@ int print_text(a_text text) {
         return 0;
     }
 
-    // if (text->is_title) {
-    //     for (int i=0; i<text->nb_words; i++) {
-    //         print_word_in_maj(text->text[i]);
-    //     }
-
-    // } else {
-    //     for (int i=0; i<text->nb_words; i++) {
-    //         print_word(text->text[i]);
-    //     }
-
-    // }
     for (int i=0; i<text->nb_words; i++) {
         print_word(text->text[i]);
     }
@@ -107,9 +108,68 @@ int print_text(a_text text) {
     return 1;
 }
 
-/* ========================= LISTS ========================= */
 
-a_list init_empty_list() {
-    a_list new_list = (a_list) malloc(sizeof(a_list));
-    return new_list;
+/* ========================= CONTENT ========================= */
+
+a_content init_content() {
+    a_content new_content = (a_content) malloc(sizeof(t_content));
+
+    new_content->text_content = NULL;
+    new_content->next_content = NULL;
+    new_content->next_content = NULL;
+
+    return new_content;
+}
+
+int is_null_content(a_content content) {
+    return content == NULL;
+}
+
+int print_content(a_content content) {
+    if (is_null_content(content)) {
+        printf("Cannot print null content\n");
+        return 0;
+    }
+
+    print_text(content->text_content);
+
+    return 1;
+}
+
+int add_next_content(a_content content, a_content next_content) {
+    if (is_null_content(content) || is_null_content(next_content)) {
+        printf("Cannot perform action with null content\n");
+        return 0;
+    }
+
+    content->next_content = next_content;
+
+    return 1;
+}
+
+int add_sub_content(a_content content, a_content sub_content) {
+    if (is_null_content(content) || is_null_content(sub_content)) {
+        printf("Cannot perform action with null content\n");
+        return 0;
+    }
+
+    content->sub_content = sub_content;
+
+    return 1;
+}
+
+int print_all_content(a_content content) {
+    if (is_null_content(content)) {
+        printf("Cannot print null content\n");
+        return 0;
+    }
+
+    print_content(content);
+    if (content->sub_content != NULL) {
+        print_all_content(content->sub_content);
+    }
+
+    if (content->next_content != NULL) {
+        print_all_content(content->next_content);
+    }
 }

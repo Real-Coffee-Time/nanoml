@@ -1,8 +1,16 @@
 #include "p_parser.h"
 
-const tag TAGS_LIST[] = {"document", "annexe", "section", "text", "li", "b", "h1", "li", "item"};
-char BUFFER[SIZE_MAX_BUFFER];
 FILE* FILE_TO_READ = NULL;
+
+char BUFFER[SIZE_MAX_BUFFER];
+
+
+const tag TAGS_LIST[] = {"nanoml", "document", "annexe", "section", "text", "li", "b", "h1", "li", "item"};
+a_tag TAGS_LOADER = NULL;
+tag TAG_TO_CLOSE = NULL;
+
+// a_content NANOML_LOADER = NULL;
+// a_content NANOML_TAG = NULL;
 
 /* ========================= PARSER ========================= */
 
@@ -32,7 +40,6 @@ int parse_file() {
     char current_char;
     int nb_tags = 0;
 
-    // Read line by line (to change to char by char)
     while ((current_char = fgetc(file)) != EOF){
 
         // printf("%c", current_char);
@@ -41,12 +48,16 @@ int parse_file() {
         }
 
         if (!is_empty_buffer()) {
-            print_buffer();
+            // print_buffer();
+            // printf("Tag to close : %s\n", TAG_TO_CLOSE);
             empty_buffer();
+            // print_tag_list(TAGS_LOADER);
         }
 
     }
-    printf("%i tags crossed", nb_tags);
+    printf("%i tags crossed\n", nb_tags);
+
+    // print_tag_list(TAGS_LOADER);
 
     // Close the file
     fclose(file);
@@ -62,13 +73,6 @@ int interprete_current_char(char current_char) {
 
     // Read a tag
     if (current_char == '<') {
-        
-
-        // char c = fgetc(FILE_TO_READ);
-
-        // do {
-        //     add_char_to_buffer(c);
-        // } while((c = fgetc(FILE_TO_READ)) != '>');
 
         char c;
         while((c = fgetc(FILE_TO_READ)) != '>') {
@@ -76,9 +80,61 @@ int interprete_current_char(char current_char) {
         }
 
         if (BUFFER[0] == '/') {
-            read_closing_tag();
+            if (read_closing_tag()) {
+                char* current_tag = malloc(sizeof(BUFFER));
+
+                int len_tag = sizeof(BUFFER);
+    
+                for (int i=1; i<len_tag; i++) {
+                    current_tag[i-1] = BUFFER[i];
+                }
+                
+                printf("Closing tag : %s\n", current_tag);
+
+                if (strcmp(current_tag, TAG_TO_CLOSE) == 0) {
+                    if (remove_last_tag(TAGS_LOADER) != -1) {
+                        TAG_TO_CLOSE = get_last_tag(TAGS_LOADER)->current_tag;
+                        printf("Tag to close is now : %s\n", TAG_TO_CLOSE);
+                    }
+                } else {
+                    printf("Error, tag '%s' foundt when '%s' was expected\n", current_tag, TAG_TO_CLOSE);
+                }
+                
+            }
+
         } else {
-            read_opening_tag();
+            if (read_opening_tag()) {
+                
+                // Create a char* label for the tag
+
+                char* current_tag = malloc(sizeof(BUFFER));
+
+                int len_tag = sizeof(BUFFER);
+                
+                for (int i=0; i<len_tag; i++) {
+                    current_tag[i] = BUFFER[i];
+                }
+
+                printf("Opening tag : %s\n", current_tag);
+
+                // a_content nanoml_content = init_content();
+
+                // If the TAGS_LOADER is null we need to instantiate it
+                if (TAGS_LOADER == NULL) {
+                    // printf("At tag %s, loader was null\n", current_tag);
+                    TAGS_LOADER = create_tag(current_tag);
+                    // NANOML_LOADER = nanoml_content;
+
+                } else {
+                    add_brother(TAGS_LOADER, current_tag);
+                    // add_sub_content(NANOML_LOADER, nanoml_content);
+                }
+
+                TAG_TO_CLOSE = get_last_tag(TAGS_LOADER)->current_tag;
+                // NANOML_TAG = nanoml_content;
+                printf("Tag to close is now : %s\n", TAG_TO_CLOSE);
+                // print_tag_list(TAGS_LOADER);
+            }
         }
         // print_buffer();
         fseek(FILE_TO_READ, -1, SEEK_CUR);
@@ -93,6 +149,12 @@ int interprete_current_char(char current_char) {
         while(isalnum(c = fgetc(FILE_TO_READ))) {
             add_char_to_buffer(c);
         }
+
+        // End of word
+        // a_word word = create_word(BUFFER, 0);
+
+        // add_word_to_text(NANOML_TAG->text_content);
+
         fseek(FILE_TO_READ, -1, SEEK_CUR);
         return 0;
 
@@ -202,4 +264,108 @@ int is_empty_buffer() {
         }
     }
     return 1;
+}
+
+
+
+/* ======================= TAGS_LOADER ======================= */
+
+a_tag create_tag(tag current_tag) {
+    printf("Creating tag : %s\n", current_tag);
+    a_tag new_tag = (a_tag) malloc(sizeof(t_tag));
+
+    new_tag->current_tag = current_tag;
+    new_tag->next_brother = NULL;
+    
+    return new_tag;
+}
+
+int is_null_tag(a_tag tag) {
+    return tag == NULL;
+}
+
+int print_tag(a_tag tag) {
+    if (is_null_tag(tag)) {
+        printf("Cannot perform action with empty tags\n");
+        return 0;
+    }
+
+    printf("%s (%d)\n", tag->current_tag, tag);
+    if (!is_null_tag(tag->next_brother)) {
+        printf("\t%s\n", tag->next_brother->current_tag);
+    } else {
+        printf("\tNULL\n");
+    }
+
+    return 1;
+}
+
+int add_brother(a_tag current_tag, tag brother) {
+    if (is_null_tag(current_tag)) {
+        printf("Cannot perform action with empty tags\n");
+        return 0;
+    }
+
+    // Make tag point to brother
+
+    a_tag new_b = create_tag(brother);
+
+    get_last_tag(current_tag)->next_brother = new_b;
+
+    
+    return 0;
+}
+
+a_tag get_last_tag(a_tag tag) {
+    if (is_null_tag(tag)) {
+        printf("Cannot perform action with empty tags\n");
+        return 0;
+    }
+
+    if (is_null_tag(tag->next_brother)) {
+        // printf("Le dernier tag est %s\n", tag->current_tag);
+        return tag;
+    }
+
+    return get_last_tag(tag->next_brother);
+}
+
+int remove_last_tag(a_tag tag) {
+    if (is_null_tag(tag)) {
+        printf("Cannot perform action with empty tags\n");
+        return 0;
+    }
+
+    a_tag last_element = get_last_tag(tag);
+
+    a_tag current_tag = tag;
+
+    if (current_tag == last_element) {
+        printf("Removing last element\n");
+        return -1;
+        
+    } else {
+        while (current_tag->next_brother != last_element) {
+            current_tag = current_tag->next_brother;
+        }
+
+        current_tag->next_brother = NULL;
+        free(last_element);
+
+        return 1;
+    }
+    
+}
+
+int print_tag_list(a_tag current_tag) {
+    if (is_null_tag(current_tag)) {
+        printf("Cannot perform action with empty tags\n");
+        return 0;
+    }
+
+    print_tag(current_tag);
+
+    if (current_tag->next_brother != NULL) {
+        print_tag_list(current_tag->next_brother);
+    }
 }

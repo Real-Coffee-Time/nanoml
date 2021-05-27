@@ -6,8 +6,6 @@
 #include <string.h>
 #include <ctype.h>
 
-#define CONTENT_TYPE a_text | a_list
-
 typedef char* string;
 
 typedef struct s_word {
@@ -25,35 +23,13 @@ typedef struct s_text {
 
 typedef t_text* a_text;
 
-typedef struct s_list {
-    a_text text;
-    struct s_list** items;
-    int nb_of_items;
-} t_list;
-
-typedef t_list* a_list;
-
 typedef struct s_content {
-    a_text* text;
-    a_list* lists;
-    struct s_content** sub_content;
+    a_text text_content;
+    struct s_content* next_content;
+    struct s_content* sub_content;
 } t_content;
 
 typedef t_content* a_content;
-
-typedef struct s_section {
-    a_content* contents;
-    int nb_content;
-} t_section;
-
-typedef t_section* a_section;
-
-typedef struct s_nanoml {
-    a_section document;
-    a_section annexe;
-} t_nanoml;
-
-typedef t_nanoml* a_nanoml;
 
 /* ========================= WORDS ========================= */
 
@@ -93,41 +69,24 @@ int print_text(a_text text);
 /***/
 int is_null_text(a_text text);
 
-/* ========================= LISTS ========================= */
+/* ========================= CONTENT ========================= */
 
 /***/
-a_list init_empty_list();
+a_content init_content();
 
 /***/
-int update_list(a_text text);
-
-/***/
-int add_sublist(a_text list);
-
-/* ======================== CONTENT ======================== */
-
-/***/
-a_content init_empty_content();
-
-/***/
-int add_text_to_content(a_text text, a_content content);
-
-/***/
-int add_list_to_content(a_list list, a_content content);
-
-/***/
-int add_subcontent_to_content(a_content subcontent, a_content content);
+int is_null_content(a_content content);
 
 /***/
 int print_content(a_content content);
 
 /***/
-a_section init_empty_section();
+int add_next_content(a_content content, a_content next_content);
 
 /***/
-int add_content_to_section(a_content content, a_section section);
+int add_sub_content(a_content content, a_content sub_content);
 
 /***/
-int print_section(a_section section);
+int print_all_content(a_content content);
 
 #endif

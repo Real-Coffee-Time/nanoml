@@ -6,9 +6,41 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "../nanoml_loader/p_nanoml_loader.h"
+
 #define SIZE_MAX_BUFFER 500
 
 typedef char* tag;
+
+/* ======================= TAGS_LOADER ======================= */
+
+typedef struct s_tag {
+    tag current_tag;
+    struct s_tag* next_brother;
+} t_tag;
+
+typedef t_tag* a_tag;
+
+/***/
+a_tag create_tag(tag current_tag);
+
+/***/
+int is_null_tag(a_tag tag);
+
+/***/
+int add_brother(a_tag current_tag, tag brother);
+
+/***/
+int remove_last_tag(a_tag tag);
+
+/***/
+int print_tag_list(a_tag tag);
+
+/***/
+int print_tag(a_tag tag);
+
+/***/
+a_tag get_last_tag(a_tag tag);
 
 /* ========================= PARSER ========================= */
 
