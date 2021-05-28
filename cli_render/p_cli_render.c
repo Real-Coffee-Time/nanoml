@@ -176,6 +176,15 @@ void print_nanoml(a_content content) {
 
         print_BUFFER();
         initialize_buffer();
+        for (int i=0 ; i<5 ; i++) {
+            if (i==2) {
+                BUFFER[NB_SECTION+char_in_buffer+i] = '#';
+            }
+            else {
+                 BUFFER[NB_SECTION+char_in_buffer+i] = ' ';
+            }
+        }
+        char_in_buffer += 5;
         print_nanoml(content->sub_content);
         print_nanoml(content->next_content);
         
