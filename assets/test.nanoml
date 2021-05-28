@@ -1,8 +1,13 @@
 <document>
-    <section>
-        <h1>Un titre <b>important</b></h1>
-    </section>
+    <h1>Un titre<b>important</b></h1>
 </document>
 <annexe>
-    Une annexe
+    Un texte random.
+    <li>Une liste avec du texte :
+        <item>Un item</item>
+        <item>Un autre item</item>
+        <li>Une sous-liste
+            <item>Un item de sous liste</item>
+        </li>
+    </li>
 </annexe>

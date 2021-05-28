@@ -4,20 +4,29 @@
 
 #include "p_cli_render.h"
 
-void print_line(char* text) {
-
-    printf ("%s \n", text);
-
+void print_closing_line(int max_width) {
+    printf("|");
+    for (int i=0; i<max_width; i++) {
+        printf("-");
+    }
+    printf("|\n");
 }
 
-void print_title(char* text) {
+void print_section(char* text, int width) {
+    print_closing_line(width);
+    
 
-    for (int i=0 ; text[i] != '\0' ; i++) {
-        
-        printf("%c", text[i]-32);
-
+    int index = 0;
+    while (text[index] != '\0') {
+        printf("|");
+        for (int i=0; i<width;  i++) {
+            if (text[index] != '\0') {
+                printf("%c", text[index]);
+                index++;
+            } else {
+                printf(" ");
+            }
+        }
+        printf("|\n");
     }
-
-    printf(" \n");
-
 }

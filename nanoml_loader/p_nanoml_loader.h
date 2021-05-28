@@ -24,9 +24,12 @@ typedef struct s_text {
 typedef t_text* a_text;
 
 typedef struct s_content {
+    char* tag;
     a_text text_content;
     struct s_content* next_content;
     struct s_content* sub_content;
+    struct s_content* previous_content;
+    struct s_content* upper_content;
 } t_content;
 
 typedef t_content* a_content;
@@ -72,7 +75,7 @@ int is_null_text(a_text text);
 /* ========================= CONTENT ========================= */
 
 /***/
-a_content init_content();
+a_content init_content(char* tag);
 
 /***/
 int is_null_content(a_content content);
@@ -87,6 +90,9 @@ int add_next_content(a_content content, a_content next_content);
 int add_sub_content(a_content content, a_content sub_content);
 
 /***/
-int print_all_content(a_content content);
+a_content get_upper_content(a_content inside_content, a_content content);
+
+/***/
+int print_all_content(a_content content, int indent);
 
 #endif
