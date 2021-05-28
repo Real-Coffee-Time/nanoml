@@ -6,6 +6,7 @@ char BUFFER[SIZE_MAX_BUFFER];
 
 
 const tag TAGS_LIST[] = {"nanoml", "document", "annexe", "section", "text", "li", "b", "h1", "li", "item"};
+
 a_tag TAGS_LOADER = NULL;
 tag TAG_TO_CLOSE = NULL;
 
@@ -24,6 +25,8 @@ int init_parser(char* file_name) {
     }
 
     FILE_TO_READ = file_to_parse;
+    // NANOML_LOADER = init_content("nanoml");
+    // NANOML_TAG = NANOML_LOADER;
 
     return 1;
 }
@@ -67,7 +70,7 @@ int parse_file() {
 }
 
 int interprete_current_char(char current_char) {
-    // printf("Character evaluated : %c\n", current_char);
+    // printf("Inside tag : %s\n", NANOML_TAG->tag);
     if (!is_empty_buffer()) {
         empty_buffer();
     }
@@ -95,7 +98,6 @@ int interprete_current_char(char current_char) {
                 if (strcmp(current_tag, TAG_TO_CLOSE) == 0) {
                     if (remove_last_tag(TAGS_LOADER) != -1) {
                         TAG_TO_CLOSE = get_last_tag(TAGS_LOADER)->current_tag;
-                        // printf("Tag to close is now : %s\n", TAG_TO_CLOSE);
 
                         if (NANOML_TAG->upper_content != NULL) {
                             NANOML_TAG = NANOML_TAG->upper_content;
@@ -127,10 +129,8 @@ int interprete_current_char(char current_char) {
 
                 // If the TAGS_LOADER is null we need to instantiate it
                 if (TAGS_LOADER == NULL) {
-                    // printf("At tag %s, loader was null\n", current_tag);
                     TAGS_LOADER = create_tag(current_tag);
                     NANOML_LOADER = nanoml_content;
-
                 } else {
                     add_brother(TAGS_LOADER, current_tag);
                     add_sub_content(NANOML_TAG, nanoml_content);
@@ -145,12 +145,12 @@ int interprete_current_char(char current_char) {
 
         return 1;
 
-    } else if (current_char == ' ' || current_char == '\n') {
-        printf("Skipping blank space\n");
+    } else if (current_char == ' ' || current_char == '\n' || current_char == '\r') {
+        // printf("Skipping blank space\n");
+
         return 0;
-    }
-    
-    else {
+
+    } else {
         // printf("\nTag to close %s\n", NANOML_TAG->tag);
         // printf("\nEvalutating %c\n", current_char);
 
@@ -188,13 +188,12 @@ int interprete_current_char(char current_char) {
             empty_buffer();
         }
 
-        // printf("\nText registered:\n");
-        // print_text(text_content);
-
+        // printf("\nLe txt : %s\n", txt);
         a_content subcontent = init_content("txt");
         subcontent->text_content = text_content;
 
         add_sub_content(NANOML_TAG, subcontent);
+
 
         fseek(FILE_TO_READ, -1, SEEK_CUR);
         return 0;

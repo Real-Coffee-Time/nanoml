@@ -19,6 +19,7 @@ typedef struct s_text {
     a_word* text;
     int nb_words;
     int is_title;
+    int nb_char;
 } t_text;
 
 typedef t_text* a_text;
@@ -68,6 +69,9 @@ int print_word_in_maj(a_word word);
 
 /***/
 int print_text(a_text text);
+
+/***/
+char* return_text(a_text text);
 
 /***/
 int is_null_text(a_text text);

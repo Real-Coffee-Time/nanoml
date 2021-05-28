@@ -1,13 +1,17 @@
-<document>
-    <h1>Un titre<b>important</b></h1>
-</document>
-<annexe>
-    Un texte random.
-    <li>Une liste avec du texte :
-        <item>Un item</item>
-        <item>Un autre item</item>
-        <li>Une sous-liste
-            <item>Un item de sous liste</item>
-        </li>
-    </li>
-</annexe>
+<nanoml>
+    <document>
+        <h1>Un titre<b>important</b>.</h1>
+
+        Un texte secondaire pour intoduire une sous-partie.
+        <section>
+            <li>
+                Liste de courses :
+                <item>Banane</item>
+            </li>
+        </section>
+    </document>
+    <annexe>
+        Ceci <ul>est</ul> une annexe.
+        @auth: Anatole de Chauveron
+    </annexe>
+</nanoml>

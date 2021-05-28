@@ -60,6 +60,7 @@ a_text create_empty_text(int is_title) {
 
     new_text->nb_words = 0;
     new_text->is_title = is_title;
+    new_text->nb_char = 0;
 
     return new_text;
 }
@@ -84,6 +85,8 @@ int add_word_to_text(a_text text, a_word word) {
         text->nb_words++;
     }
 
+    text->nb_char += strlen(word->word);
+
     return 1;
 }
 
@@ -94,6 +97,25 @@ int add_space_to_text(a_text text) {
     }
 
     return add_word_to_text(text, create_space());
+}
+
+char* return_text(a_text text) {
+    if (is_null_text(text)) {
+        printf("Cannot return null text.\n");
+        return 0;
+    }
+
+    char* str_text = malloc(sizeof(char) * text->nb_char);
+
+    int index=0;
+    for (int i=0; i<text->nb_words; i++) {
+        for (int j=0; j<strlen(text->text[i]->word); j++) {
+            str_text[index] = text->text[i]->word[j];
+            index++;
+        }
+    }
+
+    return str_text;
 }
 
 int print_text(a_text text) {
@@ -162,6 +184,7 @@ int add_sub_content(a_content content, a_content sub_content) {
 
     // Go to the last sub_content and add a brother
 
+
     if (content->sub_content == NULL) {
         content->sub_content = sub_content;
     } else {
@@ -172,6 +195,8 @@ int add_sub_content(a_content content, a_content sub_content) {
         }
 
         sub->next_content = sub_content;
+        sub_content->previous_content = sub;
+        printf("Adding %s after %s\n", sub_content->tag, sub->tag);
     }
 
     sub_content->upper_content = content;
@@ -188,21 +213,43 @@ int print_all_content(a_content content, int indent) {
     for (int i=0; i<indent; i++) {
         printf("\t");
     }
-    // print_content(content);
+    
+
     printf("%s (%p)\n", content->tag, content);
+
+    // if (content->next_content != NULL) {
+    //     for (int i=0; i<indent +1; i++) {
+    //         printf("\t");
+    //     }
+    //     printf("[next_content : %s (%p)]\n", content->next_content->tag, content->next_content);
+    // }
+
+    // if (content->sub_content != NULL) {
+    //     for (int i=0; i<indent +1; i++) {
+    //         printf("\t");
+    //     }
+    //     printf("[sub_content : %s (%p)]\n", content->sub_content->tag, content->sub_content);
+    // }
+
+    for (int i=0; i<indent + 1; i++) {
+        printf("\t");
+    }
     print_text(content->text_content);
     printf("\n");
 
 
     if (content->sub_content != NULL) {
-        print_all_content(content->sub_content, indent);
+        // printf("Moving to print sub_content %s\n", content->sub_content->tag);
+        int sub_indent = indent;
+        sub_indent += 1;
+        print_all_content(content->sub_content, sub_indent);
     }
 
     if (content->next_content != NULL) {
         print_all_content(content->next_content, indent);
     }
 
-    printf("\n");
+    // printf("\n");
 
     return 1;
 }
