@@ -11,29 +11,29 @@
 #define MAX_WIDTH 75
 
 /**
- * Remet le buffer à 0. 
+ * Reinitialise le buffer
  * Prends en compte le nombre de section.
 */
 void initialize_buffer ();
 
 /**
- * Affiche le buffer
+ * Ecrits sur le terminal une ligne complete du document
 */
 void print_BUFFER ();
 
 /**
- * Met les valeurs textuelles dans le buffer
+ * Inscrits les valeurs textuelles dans le buffer
 */
 void print_texte( a_text text, int is_title);
 
 /**
- * Mets le contenu des titres en majuscules dans le buffer
+ * Inscrits le contenu des titres en majuscules dans le buffer
 */
 void print_title(char* text);
 
 /**
- * @params: a_content content la structure n-aire
- * applique l'affichage sur l'ensemble de la structure
+ * Affiche l'ensemble du fichier nanoml en respectant le format
+ * @param a_content content : la structure n-aire
 */
 void print_nanoml (a_content content);
 

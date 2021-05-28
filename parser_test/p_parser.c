@@ -345,7 +345,7 @@ int add_brother(a_tag current_tag, tag brother) {
     get_last_tag(current_tag)->next_brother = new_b;
 
     
-    return 0;
+    return 1;
 }
 
 a_tag get_last_tag(a_tag tag) {
