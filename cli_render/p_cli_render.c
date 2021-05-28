@@ -58,12 +58,19 @@ void print_texte(a_text text, int is_title) {
 
     }
 
+    int j = 0;
+
     if (is_title == 1) {
         print_title(new);
     } 
     else {
         for(int i = 0 ; i < strlen(new) ; i++) {
-            BUFFER[char_in_buffer + (NB_SECTION+i)] = new[i];
+            if (BUFFER[char_in_buffer + (2*NB_SECTION) + i - j] >= MAX_WIDTH) {
+                j = i;
+                print_BUFFER();
+                initialize_buffer();
+            }
+            BUFFER[char_in_buffer + (NB_SECTION+i) - j] = new[i];
         }
     } 
 
@@ -73,7 +80,14 @@ void print_texte(a_text text, int is_title) {
 
 void print_title(char* text) {
 
+    int j = 0;
+
     for (int i = 0 ; i < strlen(text) ; i++) {
+        if (BUFFER[char_in_buffer + (2*NB_SECTION) + i - j] >= MAX_WIDTH) {
+                j = i;
+                print_BUFFER();
+                initialize_buffer();
+            }
         if (text[i] >= 'a' && text[i] <= 'z') {
             BUFFER[char_in_buffer + (NB_SECTION+i)] = text[i]-32;
         }
