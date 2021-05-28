@@ -1,17 +1,17 @@
 <nanoml>
     <document>
-        <h1>Un titre<b>important</b>.</h1>
+        <titre>Un titre<mot_important>important</mot_important>.</titre>
 
         Un texte secondaire pour intoduire une sous-partie.
         <section>
-            <li>
+            <liste>
                 Liste de courses :
                 <item>Banane</item>
-            </li>
+            </liste>
         </section>
     </document>
-    <annexe>
-        Ceci <ul>est</ul> une annexe.
+    <annexes>
+        Ceci est une annexe.
         @auth: Anatole de Chauveron
-    </annexe>
+    </annexes>
 </nanoml>

@@ -7,6 +7,7 @@
 #include <ctype.h>
 
 #include "../nanoml_loader/p_nanoml_loader.h"
+#include "../cli_render/p_cli_render.h"
 
 #define SIZE_MAX_BUFFER 500
 

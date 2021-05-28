@@ -5,7 +5,7 @@ FILE* FILE_TO_READ = NULL;
 char BUFFER[SIZE_MAX_BUFFER];
 
 
-const tag TAGS_LIST[] = {"nanoml", "document", "annexe", "section", "text", "li", "b", "h1", "li", "item"};
+const tag TAGS_LIST[] = {"nanoml", "document", "annexes", "section", "texte", "liste", "mot_important", "titre", "item"};
 
 a_tag TAGS_LOADER = NULL;
 tag TAG_TO_CLOSE = NULL;
@@ -62,6 +62,8 @@ int parse_file() {
 
     // print_tag_list(TAGS_LOADER);
     print_all_content(NANOML_LOADER, 0);
+
+    print_nanoml(NANOML_LOADER);
 
     // Close the file
     fclose(file);
