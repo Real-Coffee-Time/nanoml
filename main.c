@@ -14,13 +14,5 @@ int main(int argc, char** argv) {
 
     parse_file();
 
-    // a_text t = create_empty_text(0);
-    // add_word_to_text(t, create_word("Une", 0));
-    // add_space_to_text(t);
-    // add_word_to_text(t, create_word("Bite", 0));
-
-    // printf("%s\n", return_text(t));
-
-
     return 0;
 }
